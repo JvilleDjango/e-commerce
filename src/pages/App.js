@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import {createStructuredSelector} from 'reselect';
 
@@ -39,11 +39,11 @@ const App = props => {
 
   return (
     <div>
-      <BrowserRouter>
+      {/* <BrowserRouter> */}
         <Header />
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route exact path="/shop" component={ShopPage} />
+          <Route path="/shop" component={ShopPage} />
           <Route exact path="/checkout" component={CheckOut} />
           <Route
             exact
@@ -53,7 +53,7 @@ const App = props => {
             }
           />
         </Switch>
-      </BrowserRouter>
+      {/* </BrowserRouter> */}
     </div>
   );
 };
