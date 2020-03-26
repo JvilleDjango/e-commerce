@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
-import StripButton from '../../components/stripe-button/stripe-button';
 
 import {
   selectCartItems,
