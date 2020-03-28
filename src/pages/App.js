@@ -10,31 +10,16 @@ import SignInOut from "./signinout/sign-in-out";
 import HomePage from "./home/HomePage";
 import ShopPage from "./shop/ShopPage";
 import CheckOut from "./checkout/check-out";
-import { auth, createUserProfileDocument } from "../firebase/firebase.utils";
-import { setCurrentUser } from "../redux/user/user-actions";
+
 import { selectCurrentUser } from "../redux/user/user-selector";
+import { checkUserSession } from "../redux/user/user-actions";
 
 const App = props => {
-  let unsubscribeFromAuth = null;
-
   useEffect(() => {
-    const { setCurrentUser } = props;
+    const { checkUserSession } = props;
+    checkUserSession();
 
-    let unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-      if (userAuth) {
-        const userRef = await createUserProfileDocument(userAuth);
-
-        userRef.onSnapshot(snapShot => {
-          setCurrentUser({ id: snapShot.id, ...snapShot.data() });
-        });
-      }
-
-      setCurrentUser(userAuth);
-
-      return () => {
-        unsubscribeFromAuth();
-      };
-    });
+    let unsubscribeFromAuth = null;
   }, []);
 
   return (
@@ -101,7 +86,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setCurrentUser: user => dispatch(setCurrentUser(user))
+  checkUserSession: () => dispatch(checkUserSession())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
