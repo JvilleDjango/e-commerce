@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Route } from "react-router-dom";
 import { connect } from "react-redux";
 
-// import { fetchCollectionsStartAsync } from "../../redux/shop/shop-action";
 import { fetchCollectionsStart } from "../../redux/shop/shop-action";
 
 import CollectionsOverviewContainer from "../../components/collections-overview/collections-overview-container";
@@ -11,7 +10,7 @@ import CollectionsContainer from "../collections/collections-container";
 const ShopPage = ({ match, fetchCollectionsStart }) => {
   useEffect(() => {
     fetchCollectionsStart();
-  }, []);
+  }, [fetchCollectionsStart]);
 
   return (
     <div className="shop-page">

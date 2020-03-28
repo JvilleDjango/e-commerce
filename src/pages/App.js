@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
@@ -14,13 +14,10 @@ import CheckOut from "./checkout/check-out";
 import { selectCurrentUser } from "../redux/user/user-selector";
 import { checkUserSession } from "../redux/user/user-actions";
 
-const App = props => {
+const App = ({ checkUserSession, currentUser }) => {
   useEffect(() => {
-    const { checkUserSession } = props;
     checkUserSession();
-
-    let unsubscribeFromAuth = null;
-  }, []);
+  }, [checkUserSession]);
 
   return (
     <div>
@@ -32,54 +29,12 @@ const App = props => {
         <Route
           exact
           path="/signin"
-          render={() =>
-            props.currentUser ? <Redirect to="/" /> : <SignInOut />
-          }
+          render={() => (currentUser ? <Redirect to="/" /> : <SignInOut />)}
         />
       </Switch>
     </div>
   );
 };
-
-// class App extends React.Component {
-//   constructor(){
-//     super()
-
-//     this.state = {
-//       currentUser: null
-//     }
-//   }
-
-//   unsubscribeFromAuth = null;
-
-//   componentDidMount() {
-//     this.unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
-//       this.setState({currentUser: user});
-
-//       console.log(user)
-//     })
-//   };
-
-//   componentWillUnmount() {
-//     this.unsubscribeFromAuth()
-//   }
-
-//   render() {
-//     return (
-//           <div>
-//             <BrowserRouter>
-//               <Header currentUser={this.state.currentUser} />
-//               <Switch>
-//                 <Route exact path="/" component={HomePage} />
-//                 <Route exact path="/shop" component={ShopPage} />
-//                 <Route exact path="/signin" component={SignInOut} />
-//               </Switch>
-//             </BrowserRouter>
-//           </div>
-//         );
-//   }
-
-// }
 
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser
